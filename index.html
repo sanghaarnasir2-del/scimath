@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SciMth — Advanced Scientific Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="theme-day">
+  <div class="calculator-container">
+    <div class="calculator-chassis">
+      
+      <!-- Top Brand & Controls Header -->
+      <header class="calc-header">
+        <div class="brand">
+          <span class="brand-logo">∑</span>
+          <span class="brand-name">SciMth</span>
+          <span class="model-badge">PRO-991</span>
+        </div>
+        
+        <div class="header-controls">
+          <button id="themeToggle" class="mode-btn" title="Toggle Day/Night Mode" aria-label="Toggle Day and Night mode">
+            <span class="mode-icon sun-icon">☀️ Day</span>
+            <span class="mode-icon moon-icon">🌙 Night</span>
+          </button>
+          
+          <button id="historyToggle" class="icon-btn" title="Calculation History" aria-label="Open History">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 8v4l3 3"></path>
+              <circle cx="12" cy="12" r="9"></circle>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Calculator Screen (Pure White LCD Panel) -->
+      <section class="screen-wrapper">
+        <div class="screen-glass">
+          <div class="screen-meta">
+            <span id="angleUnitBadge" class="meta-tag active">DEG</span>
+            <span id="hypBadge" class="meta-tag">HYP</span>
+            <span id="secondBadge" class="meta-tag">2ND</span>
+            <span id="memoryBadge" class="meta-tag">M</span>
+          </div>
+          
+          <!-- Expression / Formula Input Preview -->
+          <div class="expression-line" id="expressionDisplay" title="Current Expression"></div>
+          
+          <!-- Main Active Result Screen -->
+          <div class="result-line">
+            <span class="cursor" id="cursor"></span>
+            <span id="mainDisplay">0</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mode & Utility Control Bar -->
+      <div class="utility-bar">
+        <button class="util-btn" id="degRadBtn" data-action="toggle-angle">RAD</button>
+        <button class="util-btn" id="secondBtn" data-action="toggle-second">2<sup>nd</sup></button>
+        <button class="util-btn" id="hypBtn" data-action="toggle-hyp">hyp</button>
+        <button class="util-btn" data-action="mem-clear">MC</button>
+        <button class="util-btn" data-action="mem-recall">MR</button>
+        <button class="util-btn" data-action="mem-plus">M+</button>
+        <button class="util-btn" data-action="mem-minus">M-</button>
+      </div>
+
+      <!-- Keypad Grid (Scientific Functions & Numeric Keys) -->
+      <main class="keypad">
+        <!-- Row 1: Advanced Scientific -->
+        <button class="key func-key" data-action="func" data-val="sin" data-second="asin">
+          <span class="primary-label">sin</span><span class="secondary-label">sin⁻¹</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="cos" data-second="acos">
+          <span class="primary-label">cos</span><span class="secondary-label">cos⁻¹</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="tan" data-second="atan">
+          <span class="primary-label">tan</span><span class="secondary-label">tan⁻¹</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="ln" data-second="exp">
+          <span class="primary-label">ln</span><span class="secondary-label">eˣ</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="log" data-second="pow10">
+          <span class="primary-label">log</span><span class="secondary-label">10ˣ</span>
+        </button>
+
+        <!-- Row 2: Powers & Roots -->
+        <button class="key func-key" data-action="func" data-val="sqrt" data-second="cbrt">
+          <span class="primary-label">√x</span><span class="secondary-label">∛x</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="sq" data-second="cube">
+          <span class="primary-label">x²</span><span class="secondary-label">x³</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="pow" data-second="rootY">
+          <span class="primary-label">xʸ</span><span class="secondary-label">ʸ√x</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="inv">
+          <span class="primary-label">1/x</span>
+        </button>
+        <button class="key func-key" data-action="func" data-val="fact">
+          <span class="primary-label">n!</span>
+        </button>
+
+        <!-- Row 3: Constants & Clear Functions -->
+        <button class="key func-key" data-action="insert" data-val="π">π</button>
+        <button class="key func-key" data-action="insert" data-val="e">e</button>
+        <button class="key func-key" data-action="insert" data-val="(">(</button>
+        <button class="key func-key" data-action="insert" data-val=")">)</button>
+        <button class="key action-key clear-btn" data-action="clear">AC</button>
+
+        <!-- Row 4: Numbers & Basic Operators -->
+        <button class="key num-key" data-action="insert" data-val="7">7</button>
+        <button class="key num-key" data-action="insert" data-val="8">8</button>
+        <button class="key num-key" data-action="insert" data-val="9">9</button>
+        <button class="key action-key del-btn" data-action="delete" title="Backspace">DEL</button>
+        <button class="key op-key" data-action="insert" data-val="÷">÷</button>
+
+        <!-- Row 5 -->
+        <button class="key num-key" data-action="insert" data-val="4">4</button>
+        <button class="key num-key" data-action="insert" data-val="5">5</button>
+        <button class="key num-key" data-action="insert" data-val="6">6</button>
+        <button class="key op-key" data-action="insert" data-val="×">×</button>
+        <button class="key op-key" data-action="insert" data-val="%">%</button>
+
+        <!-- Row 6 -->
+        <button class="key num-key" data-action="insert" data-val="1">1</button>
+        <button class="key num-key" data-action="insert" data-val="2">2</button>
+        <button class="key num-key" data-action="insert" data-val="3">3</button>
+        <button class="key op-key" data-action="insert" data-val="−">−</button>
+        <button class="key func-key" data-action="func" data-val="neg">±</button>
+
+        <!-- Row 7 -->
+        <button class="key num-key zero-key" data-action="insert" data-val="0">0</button>
+        <button class="key num-key" data-action="insert" data-val=".">.</button>
+        <button class="key func-key" data-action="func" data-val="abs">|x|</button>
+        <button class="key op-key" data-action="insert" data-val="+">+</button>
+        <button class="key equals-key" data-action="calculate">=</button>
+      </main>
+
+      <!-- History Drawer (Slide-out) -->
+      <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+          <h3>Calculations History</h3>
+          <button id="closeHistory" class="close-btn" aria-label="Close history">&times;</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <p class="history-empty">No calculations yet</p>
+        </div>
+        <div class="history-footer">
+          <button id="clearHistoryBtn" class="clear-history-btn">Clear All History</button>
+        </div>
+      </div>
+
+      <!-- Quick Status Footer -->
+      <footer class="calc-footer">
+        <span>Precision 64-bit IEEE 754</span>
+        <span class="status-indicator"><span class="dot"></span> READY</span>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
